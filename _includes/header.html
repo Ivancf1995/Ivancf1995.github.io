@@ -53,6 +53,7 @@
               </div>
             </a>
           </li>
+  
           <li>
             <a href="{{ relativebase }}feed.xml">
               <div class="left">
@@ -63,13 +64,19 @@
               </div>
             </a>
           </li>
+                   <li>
+            <a href="{{ relativebase }}about.html">
+              <div class="center">
+               <button class="button-mat">Contact</button>
+              </div>
+            </a>
+          </li>
         </ul>
       </nav>
       {% capture logo_url %}{{ relativebase }}{{ site.logo  }}{% endcapture %}
       {% assign logo_url = logo_url | replace: "//", "/" %}
       <div class="logo"><a href="{{ relativebase }}"><img class="logo" id="logo" src="{{ logo_url }}" alt="{{ site.title }}"></a></div>
       <div class="search-icon-container">
-        <span ><a class="button" href="{{ relativebase }}/about">Contact</i></a></span>
         <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
       </div>
     </div>
