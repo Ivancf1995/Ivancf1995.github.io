@@ -1,11 +1,11 @@
 # Site settings
 title: The Darwin Code
-description: 'Artificial intelligence for Science' # this means to ignore newlines until "baseurl:"
+description: 'Artificial Intelligence Applied to sicentific Research' # this means to ignore newlines until "baseurl:"
 permalink: ':title:output_ext'
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://the-mvm.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://ivancf1995.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 logo: "/assets/img/branding/Logo.png"
-logo-icon: "/assets/img/branding/Logo_symbol.svg"
+logo-icon: "/assets/img/branding/Logo_symbol.png"
 logo-icon-SEO: "/assets/img/branding/Logo_symbol_dark.png" # must be a non SVG file
 
 # Night/Dark mode
