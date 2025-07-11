@@ -5,7 +5,7 @@ show_date: true
 title:  Understanding bryophyte distribution using environmental data
 date:   2021-03-12 13:32:20 -0600
 description: 
-img: posts/pollinators/butterflies.jpg
+img: posts/bryophytes_distribution/cover.jpeg
 tags: []
 author: Iván Cortés, Pere Miquel 
 github: 

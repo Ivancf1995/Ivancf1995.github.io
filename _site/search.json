@@ -51,16 +51,6 @@
     } ,
   
     {
-      "title"       : "Analysing pollination networks in R",
-      "category"    : "",
-      "tags"        : "",
-      "url"         : "./pollination-networks.html",
-      "date"        : "2021-03-12 20:32:20 +0100",
-      "description" : "Some neural network optimization algorithms mostly to implement momentum when doing back propagation.",
-      "content"     : "Under developmentAdam"
-    } ,
-  
-    {
       "title"       : "Understanding bryophyte distribution using environmental data",
       "category"    : "",
       "tags"        : "",
@@ -78,6 +68,16 @@
       "date"        : "2021-03-12 20:32:20 +0100",
       "description" : "Some neural network optimization algorithms mostly to implement momentum when doing back propagation.",
       "content"     : "Under developmentExtensive material and methods and results from this study can be read in the original manuscript[]"
+    } ,
+  
+    {
+      "title"       : "Analysing pollination networks in R",
+      "category"    : "",
+      "tags"        : "",
+      "url"         : "./pollination-networks.html",
+      "date"        : "2021-03-12 20:32:20 +0100",
+      "description" : "Some neural network optimization algorithms mostly to implement momentum when doing back propagation.",
+      "content"     : "Under developmentAdam"
     } 
   
 ]
