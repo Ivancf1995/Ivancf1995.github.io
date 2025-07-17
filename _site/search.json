@@ -51,7 +51,7 @@
     } ,
   
     {
-      "title"       : "Analysing allien plant species introduction",
+      "title"       : "Analysing allien plant species introduction in the Balearic Islands",
       "category"    : "",
       "tags"        : "R, allien species, Time series, GLMs, unsupervised learning, hierarchical clustering",
       "url"         : "./Allien_species_introduction.html",
