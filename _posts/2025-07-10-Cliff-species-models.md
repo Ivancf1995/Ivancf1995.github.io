@@ -125,8 +125,6 @@ After training the model, we evaluated its performance using the `confusionMatri
 conf_RF <- confusionMatrix(cliff_RF_model)$table
 ```
 
-The confusion matrix showed that the model had a high accuracy, with a sensitivity of X and a specificity of X...
-
 One of the most beatifoul things about randomForest is that it provides a measure of variable importance, which can be used to understand which environmental variables are most important for the distribution of cliff species. We used `importance` function from the `ranger` package to obtain the variable importance scores and plotted them using `ggplot2`.
 
 ```r

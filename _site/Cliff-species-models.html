@@ -22,7 +22,7 @@
   "headline": "Approaching cliff species distribution using RandomForest ",
   "abstract": "Predicting ",
     "keywords": "R, species distribution modelling, machine learning, artificial intelligence, consrvation",
-    "wordcount": "1286",
+    "wordcount": "1265",
     "image": ["http://localhost:4000/assets/imgposts/Species_distribution_cliffs/post-cliffs.png"],
   "datePublished": "2025-06-16 00:00:00 +0200",
   "dateModified": "2025-06-16 00:00:00 +0200",
@@ -62,7 +62,7 @@
 <meta name="twitter:description" content="Predicting ">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="1286"/>
+<meta data-rh="true" name="twitter:data1" content="1265"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/Species_distribution_cliffs/post-cliffs.png">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -476,8 +476,6 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conf_RF</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">confusionMatrix</span><span class="p">(</span><span class="n">cliff_RF_model</span><span class="p">)</span><span class="o">$</span><span class="n">table</span><span class="w">
 </span></code></pre></div></div>
-
-<p>The confusion matrix showed that the model had a high accuracy, with a sensitivity of X and a specificity of X…</p>
 
 <p>One of the most beatifoul things about randomForest is that it provides a measure of variable importance, which can be used to understand which environmental variables are most important for the distribution of cliff species. We used <code class="language-plaintext highlighter-rouge">importance</code> function from the <code class="language-plaintext highlighter-rouge">ranger</code> package to obtain the variable importance scores and plotted them using <code class="language-plaintext highlighter-rouge">ggplot2</code>.</p>
 
