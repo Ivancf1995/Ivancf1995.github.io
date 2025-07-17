@@ -26,6 +26,8 @@
   "tag" : "R",
   "posts" : [
       
+      "./Cliff-species-models.html",
+      
       "./Allien_species_introduction.html"
       
     ]
@@ -56,7 +58,7 @@
   "tag" : "artificial intelligence",
   "posts" : [
       
-      "./Cliff-species-modelling-copy.html"
+      "./Cliff-species-models.html"
       
     ]
   } ,
@@ -66,7 +68,7 @@
   "tag" : "consrvation",
   "posts" : [
       
-      "./Cliff-species-modelling-copy.html"
+      "./Cliff-species-models.html"
       
     ]
   } ,
@@ -106,7 +108,7 @@
   "tag" : "machine learning",
   "posts" : [
       
-      "./Cliff-species-modelling-copy.html"
+      "./Cliff-species-models.html"
       
     ]
   } ,
@@ -126,7 +128,7 @@
   "tag" : "species distribution modelling",
   "posts" : [
       
-      "./Cliff-species-modelling-copy.html"
+      "./Cliff-species-models.html"
       
     ]
   } ,
