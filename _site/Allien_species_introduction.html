@@ -21,8 +21,8 @@
     "@id": "http://localhost:4000"},
   "headline": "Analysing allien species introduction in the Balearic Islands",
   "abstract": "Some neural network optimization algorithms mostly to implement momentum when doing back propagation.",
-    "keywords": "",
-    "wordcount": "18",
+    "keywords": "R, allien species, Time series, GLMs, unsupervised learning, hierarchical clustering",
+    "wordcount": "841",
     "image": ["http://localhost:4000/assets/imgposts/Allien_species/cover.jpeg"],
   "datePublished": "2021-03-12 20:32:20 +0100",
   "dateModified": "2021-03-12 20:32:20 +0100",
@@ -49,7 +49,7 @@
 <meta property="og:site_name" content="The Darwin Code" />
 <meta property="article:published_time" content="2021-03-12 20:32:20 +0100" />
 <meta property="article:modified_time" content="2021-03-12 20:32:20 +0100" />
-<meta property="article:tag" content="" />
+<meta property="article:tag" content="R, allien species, Time series, GLMs, unsupervised learning, hierarchical clustering" />
 <meta property="fb:admins" content="" />
 <!-- Schema.org markup for Google -->
 <meta itemprop="name" content="Analysing allien species introduction in the Balearic Islands">
@@ -62,7 +62,7 @@
 <meta name="twitter:description" content="Some neural network optimization algorithms mostly to implement momentum when doing back propagation.">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="18"/>
+<meta data-rh="true" name="twitter:data1" content="841"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/Allien_species/cover.jpeg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -129,6 +129,7 @@
 	
 	<link rel="stylesheet" href="./assets/css/highlighter/syntax-base16.monokai.dark.css">
 	
+
 </head>
 
   <body>
@@ -163,7 +164,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        4 minute read
       
     </span>
   
@@ -171,7 +172,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>Under development</p><tweet>Extensive material and methods and results from this study can be read in the original manuscript[]</tweet><a class="read-more" href="./Allien_species_introduction.html"> read more</a>
+            <p>Extensive material and methods and results from this study can be read in the <a href="https://doi.org/10.1007/s10531-023-02620-z">original manuscript</a> in the Journal <a href="https://link.springer.com/journal/10531">Biodiversity and Conservation</a></p><p>In this post we will focus on the introduction of plant allien species in the Balearic Islands, and how we can use machine learning to analyse future trends based on historical data.</p><p>The main challenge in this study was to gather all publicly available data regarding introductions and think about the visualizations that would be most useful to understand the trends in the introduction of the species. From the data we gathered (one row per citation) we characterized...<a class="read-more" href="./Allien_species_introduction.html"> read more</a>
         </div>
   </div>
 </section>
@@ -311,7 +312,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        4 minute read
       
     </span>
   
@@ -329,6 +330,18 @@
 <div class="tag-cloud">
     
         <ul class="tags side">
+            
+                <li><a href="./tag.html?tag=R" class="tag side">R</a></li>
+            
+                <li><a href="./tag.html?tag=allien+species" class="tag side">allien species</a></li>
+            
+                <li><a href="./tag.html?tag=Time+series" class="tag side">Time series</a></li>
+            
+                <li><a href="./tag.html?tag=GLMs" class="tag side">GLMs</a></li>
+            
+                <li><a href="./tag.html?tag=unsupervised+learning" class="tag side">unsupervised learning</a></li>
+            
+                <li><a href="./tag.html?tag=hierarchical+clustering" class="tag side">hierarchical clustering</a></li>
             
     
         </ul>
@@ -366,12 +379,138 @@
   </div>
 </div>
 
-        <p>Under development</p>
+        <p>Extensive material and methods and results from this study can be read in the <a href="https://doi.org/10.1007/s10531-023-02620-z">original manuscript</a> in the Journal <a href="https://link.springer.com/journal/10531">Biodiversity and Conservation</a></p>
 
-<tweet>
-Extensive material and methods and results from this study can be read in the original manuscript[]
-</tweet>
+<p>In this post we will focus on the introduction of plant allien species in the Balearic Islands, and how we can use machine learning to analyse future trends based on historical data.</p>
 
+<p>The main challenge in this study was to gather all publicly available data regarding introductions and think about the visualizations that would be most useful to understand the trends in the introduction of the species. From the data we gathered (one row per citation) we characterized information about the taxa (life form, taxonomic family, biogeographical origin) and about the introduction (path, date, habitat). We used this information to carry out <strong>Generalised Linear Models</strong> as follows:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Habitat_predicted_data</span><span class="o">=</span><span class="n">expand.grid</span><span class="p">(</span><span class="w">
+  </span><span class="n">Fecha</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1800</span><span class="o">:</span><span class="m">2100</span><span class="p">),</span><span class="w">
+  </span><span class="n">Habitat</span><span class="o">=</span><span class="n">Habitat_datamodel</span><span class="o">$</span><span class="n">Habitat</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Habitat_year_model</span><span class="o">=</span><span class="n">glm</span><span class="p">(</span><span class="n">N</span><span class="o">~</span><span class="n">Fecha</span><span class="o">+</span><span class="n">Habitat</span><span class="p">,</span><span class="w">
+                     </span><span class="n">family</span><span class="o">=</span><span class="n">poisson</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="s2">"log"</span><span class="p">),</span><span class="w">
+                     </span><span class="n">data</span><span class="o">=</span><span class="n">Habitat_datamodel</span><span class="p">)</span><span class="w">
+</span><span class="n">Habitat_year_model_int</span><span class="o">=</span><span class="n">glm</span><span class="p">(</span><span class="n">N</span><span class="o">~</span><span class="n">Fecha</span><span class="o">*</span><span class="n">Habitat</span><span class="p">,</span><span class="w">
+                         </span><span class="n">family</span><span class="o">=</span><span class="n">poisson</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="s2">"log"</span><span class="p">),</span><span class="w">
+                         </span><span class="n">data</span><span class="o">=</span><span class="n">Habitat_datamodel</span><span class="p">)</span><span class="w">
+
+</span><span class="n">AIC</span><span class="p">(</span><span class="n">Habitat_year_model_int</span><span class="p">,</span><span class="w">
+    </span><span class="n">Habitat_year_model</span><span class="p">)</span><span class="w">
+
+</span><span class="n">summary</span><span class="p">(</span><span class="n">aov</span><span class="p">(</span><span class="n">Habitat_year_model_int</span><span class="p">))</span><span class="w">
+
+
+</span><span class="n">pscl</span><span class="o">::</span><span class="n">pR2</span><span class="p">(</span><span class="n">Habitat_year_model_int</span><span class="p">)[</span><span class="m">4</span><span class="p">]</span><span class="c1">#0.81</span><span class="w">
+
+</span><span class="n">car</span><span class="o">::</span><span class="n">Anova</span><span class="p">(</span><span class="n">Habitat_year_model_int</span><span class="p">,</span><span class="n">type</span><span class="o">=</span><span class="s2">"III"</span><span class="p">,</span><span class="n">singular.ok</span><span class="w"> </span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For each variable, we used Poisson family as indicated for count data, testing model signicance with a Chi-squared test. The results showed that the model was significant, and we could use it to predict future trends in the introduction of allien species. We used car::Anova to get the significance of each variable in the model, and pscl::pR2 to get the pseudo R-squared value of the model.</p>
+
+<p>Defined the most accurate model, we used it to make it out predictions:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predicted_intro</span><span class="o">=</span><span class="n">predict</span><span class="p">(</span><span class="n">Habitat_year_model_int</span><span class="p">,</span><span class="w">
+                        </span><span class="n">newdata</span><span class="o">=</span><span class="n">Habitat_predicted_data</span><span class="p">,</span><span class="w">
+                        </span><span class="n">type</span><span class="o">=</span><span class="s2">"response"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">se.fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note se.fit to TRUE to get the standard error of the predictions, which we used to calculate confidence intervals for the predictions. Plotting was carried out as follows:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Habitat_year_plot</span><span class="o">=</span><span class="n">Habitat_plot_data</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Fecha</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">fit</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="n">Habitat</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="m">2023</span><span class="p">),</span><span class="n">lty</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="s2">"#a9a9a9"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">lty</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">fit</span><span class="o">-</span><span class="n">se.fit</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">fit</span><span class="o">+</span><span class="n">se.fit</span><span class="p">,</span><span class="w">
+                  </span><span class="n">fill</span><span class="o">=</span><span class="n">Habitat</span><span class="p">,</span><span class="w">
+  </span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">Habitat_datamodel</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">N</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Number of taxa"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Habitat"</span><span class="p">,</span><span class="w">
+       </span><span class="n">subtitle</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Factor sig. (Df= 6, F= 239.53, p&lt; 0.001); Interaction sig. (Df=6 , LR= 58.64, p&lt; 0.001)"</span><span class="p">),</span><span class="w">
+       </span><span class="n">caption</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Model p-value&lt; 0.001; R2: 0.88"</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1800</span><span class="p">,</span><span class="m">2150</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Blackburn index"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fun_color_range</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">as.factor</span><span class="p">(</span><span class="n">Habitat_datamodel</span><span class="o">$</span><span class="n">Habitat</span><span class="p">)))))</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Blackburn index"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fun_color_range</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">levels</span><span class="p">(</span><span class="n">as.factor</span><span class="p">(</span><span class="n">Habitat_datamodel</span><span class="o">$</span><span class="n">Habitat</span><span class="p">)))))</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">,</span><span class="w">
+        </span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span><span class="w">
+        </span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span><span class="w">
+        </span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">"Helvetica"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">Habitat_year_label_plot</span><span class="o">=</span><span class="n">directlabels</span><span class="o">::</span><span class="n">direct.label.ggplot</span><span class="p">(</span><span class="n">Habitat_year_plot</span><span class="p">,</span><span class="w">
+                                                          </span><span class="nf">list</span><span class="p">(</span><span class="s2">"last.points"</span><span class="p">,</span><span class="w">
+                                                               </span><span class="n">cex</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w">
+                                                               </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Although model statistics could be automatically extracted, we decided to include them in the plot as a subtitle for clarity.  Note the inclusion of se.fit in the geom ribbon to include confidence intervals in the plot. On the other hand, we chosed to use directlabels library to label the lines in the plot, which allows for a cleaner visualization without overlapping labels. The final plot is shown below:</p>
+
+<p><img src="./assets/img/posts/Allien_species/trends.jpg" alt="Allien species introduction in the Balearic Islands" /></p>
+
+<p>We can observe that the introduction of allien species in the Balearic Islands has been increasing over time. The model predicts that this trend will continue in the future, with a significant increase in the number of introductions in the coming years, which could reach more than 1000 species, representing &gt;50% of the total number of plant species in the Balearic Islands.</p>
+
+<tweet>If current trends in allien species introductions continue, by 2100 exotic species could represent &gt;50% of the total number of plant species in the Balearic Islands.</tweet>
+
+<p>On the other hand, we can see that habitats related to human disturbance are more prone to introuctions, as well as some origins like Capense and neotropical among Cactaceae and Asteraceae family. The main introduction path is ornamental, no unintencional, so conservation efforts should focus on controlling them regualting their importation.</p>
+
+<tweet>In the Balearic Islands main introduction pathways of plant allien speies are ornamental, no unintentional, highlighting the need for stricter regulations on plant imports.</tweet>
+
+<p>We also aimed to analyse if allien species introductions were similar among islands. To do so, wu used unspervised machine learnign with hierarchical clustering to group islands based on the presence of allien species. We transformed islands to columns and taxa to rows, indicating 1/0 for presence/absence of the species in each island, and then calulated the distance matrix using Euclidean distance. The clustering was done using Ward’s method, which is a hierarchical clustering method that minimizes the variance within clusters.</p>
+
+<p style="text-align:center">
+\(\Delta(A, B) = \dfrac{|A| \cdot |B|}{|A| + |B|} \cdot \left\| \bar{x}_A - \bar{x}_B \right\|^2\)
+</p>
+
+<p>
+where A and B are the clusters, \(|A|\) and \(|B|\) are the number of elements in each cluster, and \(\bar{x}_A\) and \(\bar{x}_B\) are the centroids of each cluster. The distance between clusters is calculated as the product of the number of elements in each cluster divided by the sum of the number of elements in both clusters, multiplied by the squared distance between the centroids of each cluster. 
+</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">A_PCA</span><span class="o">=</span><span class="n">A_islas</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="m">7</span><span class="p">]</span><span class="w">
+
+</span><span class="n">A_PCA</span><span class="p">[</span><span class="nf">is.na</span><span class="p">(</span><span class="n">A_PCA</span><span class="p">)]</span><span class="o">=</span><span class="m">0</span><span class="w">
+
+</span><span class="n">Data_matrix</span><span class="o">=</span><span class="n">t</span><span class="p">(</span><span class="n">A_PCA</span><span class="p">)</span><span class="w">
+
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">Data_matrix</span><span class="p">)</span><span class="o">=</span><span class="n">A_islas</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">$</span><span class="n">Taxa</span><span class="w">
+
+</span><span class="n">d</span><span class="o">=</span><span class="n">dist</span><span class="p">(</span><span class="n">Data_matrix</span><span class="p">,</span><span class="w">
+       </span><span class="n">method</span><span class="o">=</span><span class="s2">"euclidean"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">clustering</span><span class="o">=</span><span class="n">hclust</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"ward.D"</span><span class="p">)</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>We then plotted the dendrogram to visualize the clustering of islands based on the presence of allien species:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ddata_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dendro_data</span><span class="p">(</span><span class="n">as.dendrogram</span><span class="p">(</span><span class="n">clustering</span><span class="p">))</span><span class="w">
+</span><span class="n">labs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">label</span><span class="p">(</span><span class="n">ddata_x</span><span class="p">)</span><span class="w">
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="n">ddata_x</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="o">=</span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="o">=</span><span class="n">yend</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">label</span><span class="p">(</span><span class="n">ddata_x</span><span class="p">),</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">),</span><span class="n">colour</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Euclidean distance"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_blank</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">"Helvetica"</span><span class="p">),</span><span class="w">
+        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+
+
+</span><span class="n">p2</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The resulting plot shows that Ibiza and formentera are the most similar islands, sharing a common set of allien species. Mallorca and Menorca are also similar, btu different from minor islands, suggestign that island size plays a major role in the introduction, probably to major demographic pressure and human disturbance.</p>
+
+<p><img src="./assets/img/posts/Allien_species/dendro.jpg" alt="Allien species introduction in the Balearic Islands by island" /></p>
+
+<p>And that’s all for this post! We hope you found it interesting and informative. If you have any questions or comments, feel free to reach out to us.</p>
 
         <aside class="sidebar inline" id="post-end">
     
@@ -381,6 +520,18 @@ Extensive material and methods and results from this study can be read in the or
 <div class="tag-cloud">
     
         <ul class="tags inline">
+            
+                <li><a href="./tag.html?tag=R" class="tag inline">R</a></li>
+            
+                <li><a href="./tag.html?tag=allien+species" class="tag inline">allien species</a></li>
+            
+                <li><a href="./tag.html?tag=Time+series" class="tag inline">Time series</a></li>
+            
+                <li><a href="./tag.html?tag=GLMs" class="tag inline">GLMs</a></li>
+            
+                <li><a href="./tag.html?tag=unsupervised+learning" class="tag inline">unsupervised learning</a></li>
+            
+                <li><a href="./tag.html?tag=hierarchical+clustering" class="tag inline">hierarchical clustering</a></li>
             
     
         </ul>
