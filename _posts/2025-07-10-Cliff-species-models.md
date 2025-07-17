@@ -12,7 +12,7 @@ author: Iván Cortés Fernández
 description: "Predicting "
 ---
 
-Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in Mallorca, Balearic Islands, Spain. specific information about methods and results can be found in the [original manuscript](https://doi.org/10.1016/j.baae.2024.08.001) in the Journal [Basic and Applied Ecology](https://www.sciencedirect.com/journal/basic-and-applied-ecology).
+Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain. specific information about methods and results can be found in the [original manuscript](https://doi.org/10.1016/j.baae.2024.08.001) in the Journal [Basic and Applied Ecology](https://www.sciencedirect.com/journal/basic-and-applied-ecology).
 
 SDMs are supervised learning algortihms that require ocurrence data as response variable and environmental variables as predictors. In this case, the response variable was the presence of cliff species, and the predictors were environmental variables such as altitude, slope, aspect and biolcimatic data. We used [WorldClim](https://www.worldclim.org/) data to obtain the environmental variables. 
 
