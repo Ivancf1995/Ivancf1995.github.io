@@ -9,16 +9,21 @@ tags: [R, species distribution modelling, machine learning, artificial intellige
 category: manuscript
 github: jrb772/Cliff_BalearicIslands_ENM
 author: Iván Cortés Fernández
-description: "Predicting "
+description: "Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain."
+toc: true
 ---
 
 Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain. specific information about methods and results can be found in the [original manuscript](https://doi.org/10.1016/j.baae.2024.08.001) in the Journal [Basic and Applied Ecology](https://www.sciencedirect.com/journal/basic-and-applied-ecology).
 
 SDMs are supervised learning algortihms that require ocurrence data as response variable and environmental variables as predictors. In this case, the response variable was the presence of cliff species, and the predictors were environmental variables such as altitude, slope, aspect and biolcimatic data. We used [WorldClim](https://www.worldclim.org/) data to obtain the environmental variables. 
 
+### Data gathering
+
 Data for the study was obtained from the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/), which provides access to a wide range of biodiversity data. The data was filtered to include only cliff species in Mallorca, and the coordinates were used to create a spatial dataset. This dataset was enlarged with own data collected in the field. Maps were created using [QGIS](https://www.qgis.org/en/site/). At the end, 20 species were selected for the analysis, representing over ~3000 occurences. 
 
 ![GBIF records of selected cliff species](./assets/img/posts/Species_distribution_cliffs/GBIF_records.jpg)
+
+### Absence data generation
 
 A challenge and one of the most sensible parts of Species distribution modelling is the creation of absence data, which is necessary to train the model. In this case, we generated buffers of 
 1km areound the presence points and used these buffers to create pseudo-absence points. This method is widely used in SDMs, but it is important to note that it can introduce bias in the model if not done correctly. We used a random sampling approach to select the pseudo-absence points, ensuring that they were not too close to the presence points.
@@ -44,6 +49,9 @@ Absence_points <- terra::spatSample(Background_area,
 ```
 Using this code, we cropped the buffers from the background area (Europe limits) and sampled random points from it. 
 
+
+### Environmental variables extraction
+
 Then, we extracted the environmental variables from the presence and pseudo-absence points using the `extract` function from the `terra` package. This allowed us to create a dataset with the presence and absence points, along with the environmental variables.
 
 ```r
@@ -63,6 +71,8 @@ cliff_data <- cbind(extracted_predictors, missing_points)
 ```
 
 Note the use of `caret::preProcess` to fill missing data using bagInputing (based on Regression Trees), but other options are available (mean, median, knn or linear imputation ). This is a common approach to handle missing data in SDMs, as it allows us to use all available data without losing information, as some supervised learning algorithms do not handle missing data well.
+
+### Managing variable correlation
 
 Although some altogrithm can handle well with correlated variables, it is a good practice to check for multicollinearity in the predictors. In this case, we used the `vif` function from the `usdm` package to calculate the Variance Inflation Factor (VIF) and remove highly correlated variables.
 
@@ -87,6 +97,8 @@ while (loop_val >= 10) {
   print(paste("max VIF at", loop_val))
 }
 ```
+
+### Model training
 
 Finally, we used the `ranger` package to train a Random Forest model on the data. The model was trained using 40-fold cross-validation and repeated 40 times to ensure robustness. The model was then used to predict the distribution of cliff species in Mallorca. We opted to use RandomForest as it is a flexible algorithm that can handle non-linear relationships, less restrictive assumptions about the data than Generalised Linear Models, and is robust to overfitting.
 
@@ -166,6 +178,8 @@ Finally, we can use the trained model to predict the distribution of cliff speci
 
 We can observe how the model predicts the distribution of cliff species. Mallorca, because of its high mountainous areas in comparison to the other islands, has a high probability of presence of cliff species in the north and northwest areas, where the highest cliffs are located. The model also predicts lower probabilities of presence in the southern and eastern areas, where the cliffs are less pronounced.
 
+### Future scenarios
+
 Finally, we can change environmental raster variables to predict how the distribution of cliff species would change under different scenarios of climate change.
 
 ![Predicted distribution of cliff species in Mallorca under climate change scenarios](./assets/img/posts/Species_distribution_cliffs/future_map.jpg)
@@ -175,3 +189,20 @@ In comparison with the current distribution, we can see that distribution area i
 <tweet>Using Random Forests to model the distribution of cliff species in Mallorca, we predict a significant reduction in their distribution area under climate change scenarios, enhancing their conservation priority</tweet>
 
 *Note: we have ommited train-test split and hyperparameter tuning for simplicity, but it is a good practice to avoid overfitting and achieve better generalization capabilities*
+
+### Citation
+
+APA cite: Borras, J., Cortés-Fernández, I., & Capó, M. (2024). Spatial distribution of cliff plant species in the Balearic Islands under current and projected climatic scenarios. Basic and Applied Ecology, 80, 1-10.
+
+BIBTEX cite:
+```
+@article{borras2024spatial,
+  title={Spatial distribution of cliff plant species in the Balearic Islands under current and projected climatic scenarios},
+  author={Borras, Joshua and Cort{\'e}s-Fern{\'a}ndez, Iv{\'a}n and Cap{\'o}, Miquel},
+  journal={Basic and Applied Ecology},
+  volume={80},
+  pages={1--10},
+  year={2024},
+  publisher={Elsevier}
+}
+  ```

@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-17T17:55:01+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">The Darwin Code</title><subtitle>Artificial Intelligence Applied to sicentific Research</subtitle><author><name>Iván Cortés</name></author><entry><title type="html">Approaching cliff species distribution using RandomForest</title><link href="http://localhost:4000/Cliff-species-models.html" rel="alternate" type="text/html" title="Approaching cliff species distribution using RandomForest" /><published>2025-06-16T00:00:00+02:00</published><updated>2025-06-16T00:00:00+02:00</updated><id>http://localhost:4000/Cliff-species-models</id><content type="html" xml:base="http://localhost:4000/Cliff-species-models.html"><![CDATA[<p>Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain. specific information about methods and results can be found in the <a href="https://doi.org/10.1016/j.baae.2024.08.001">original manuscript</a> in the Journal <a href="https://www.sciencedirect.com/journal/basic-and-applied-ecology">Basic and Applied Ecology</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-17T18:15:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">The Darwin Code</title><subtitle>Artificial Intelligence Applied to sicentific Research</subtitle><author><name>Iván Cortés</name></author><entry><title type="html">Approaching cliff species distribution using RandomForest</title><link href="http://localhost:4000/Cliff-species-models.html" rel="alternate" type="text/html" title="Approaching cliff species distribution using RandomForest" /><published>2025-06-16T00:00:00+02:00</published><updated>2025-06-16T00:00:00+02:00</updated><id>http://localhost:4000/Cliff-species-models</id><content type="html" xml:base="http://localhost:4000/Cliff-species-models.html"><![CDATA[<p>Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain. specific information about methods and results can be found in the <a href="https://doi.org/10.1016/j.baae.2024.08.001">original manuscript</a> in the Journal <a href="https://www.sciencedirect.com/journal/basic-and-applied-ecology">Basic and Applied Ecology</a>.</p>
 
 <p>SDMs are supervised learning algortihms that require ocurrence data as response variable and environmental variables as predictors. In this case, the response variable was the presence of cliff species, and the predictors were environmental variables such as altitude, slope, aspect and biolcimatic data. We used <a href="https://www.worldclim.org/">WorldClim</a> data to obtain the environmental variables.</p>
+
+<h3 id="data-gathering">Data gathering</h3>
 
 <p>Data for the study was obtained from the <a href="https://www.gbif.org/">Global Biodiversity Information Facility (GBIF)</a>, which provides access to a wide range of biodiversity data. The data was filtered to include only cliff species in Mallorca, and the coordinates were used to create a spatial dataset. This dataset was enlarged with own data collected in the field. Maps were created using <a href="https://www.qgis.org/en/site/">QGIS</a>. At the end, 20 species were selected for the analysis, representing over ~3000 occurences.</p>
 
 <p><img src="./assets/img/posts/Species_distribution_cliffs/GBIF_records.jpg" alt="GBIF records of selected cliff species" /></p>
+
+<h3 id="absence-data-generation">Absence data generation</h3>
 
 <p>A challenge and one of the most sensible parts of Species distribution modelling is the creation of absence data, which is necessary to train the model. In this case, we generated buffers of 
 1km areound the presence points and used these buffers to create pseudo-absence points. This method is widely used in SDMs, but it is important to note that it can introduce bias in the model if not done correctly. We used a random sampling approach to select the pseudo-absence points, ensuring that they were not too close to the presence points.</p>
@@ -29,6 +33,8 @@
 </span></code></pre></div></div>
 <p>Using this code, we cropped the buffers from the background area (Europe limits) and sampled random points from it.</p>
 
+<h3 id="environmental-variables-extraction">Environmental variables extraction</h3>
+
 <p>Then, we extracted the environmental variables from the presence and pseudo-absence points using the <code class="language-plaintext highlighter-rouge">extract</code> function from the <code class="language-plaintext highlighter-rouge">terra</code> package. This allowed us to create a dataset with the presence and absence points, along with the environmental variables.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">extracted_predictors_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">terra</span><span class="o">::</span><span class="n">extract</span><span class="p">(</span><span class="n">Predictive_rasters</span><span class="p">,</span><span class="w"> </span><span class="n">occs</span><span class="p">,</span><span class="w"> </span><span class="n">xy</span><span class="o">=</span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">bind</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="w">
@@ -47,6 +53,8 @@
 </span></code></pre></div></div>
 
 <p>Note the use of <code class="language-plaintext highlighter-rouge">caret::preProcess</code> to fill missing data using bagInputing (based on Regression Trees), but other options are available (mean, median, knn or linear imputation ). This is a common approach to handle missing data in SDMs, as it allows us to use all available data without losing information, as some supervised learning algorithms do not handle missing data well.</p>
+
+<h3 id="managing-variable-correlation">Managing variable correlation</h3>
 
 <p>Although some altogrithm can handle well with correlated variables, it is a good practice to check for multicollinearity in the predictors. In this case, we used the <code class="language-plaintext highlighter-rouge">vif</code> function from the <code class="language-plaintext highlighter-rouge">usdm</code> package to calculate the Variance Inflation Factor (VIF) and remove highly correlated variables.</p>
 
@@ -70,6 +78,8 @@
   </span><span class="n">print</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">"max VIF at"</span><span class="p">,</span><span class="w"> </span><span class="n">loop_val</span><span class="p">))</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
+
+<h3 id="model-training">Model training</h3>
 
 <p>Finally, we used the <code class="language-plaintext highlighter-rouge">ranger</code> package to train a Random Forest model on the data. The model was trained using 40-fold cross-validation and repeated 40 times to ensure robustness. The model was then used to predict the distribution of cliff species in Mallorca. We opted to use RandomForest as it is a flexible algorithm that can handle non-linear relationships, less restrictive assumptions about the data than Generalised Linear Models, and is robust to overfitting.</p>
 
@@ -142,6 +152,8 @@
 
 <p>We can observe how the model predicts the distribution of cliff species. Mallorca, because of its high mountainous areas in comparison to the other islands, has a high probability of presence of cliff species in the north and northwest areas, where the highest cliffs are located. The model also predicts lower probabilities of presence in the southern and eastern areas, where the cliffs are less pronounced.</p>
 
+<h3 id="future-scenarios">Future scenarios</h3>
+
 <p>Finally, we can change environmental raster variables to predict how the distribution of cliff species would change under different scenarios of climate change.</p>
 
 <p><img src="./assets/img/posts/Species_distribution_cliffs/future_map.jpg" alt="Predicted distribution of cliff species in Mallorca under climate change scenarios" /></p>
@@ -150,7 +162,23 @@
 
 <tweet>Using Random Forests to model the distribution of cliff species in Mallorca, we predict a significant reduction in their distribution area under climate change scenarios, enhancing their conservation priority</tweet>
 
-<p><em>Note: we have ommited train-test split and hyperparameter tuning for simplicity, but it is a good practice to avoid overfitting and achieve better generalization capabilities</em></p>]]></content><author><name>Iván Cortés Fernández</name></author><category term="manuscript" /><category term="R" /><category term="species distribution modelling" /><category term="machine learning" /><category term="artificial intelligence" /><category term="consrvation" /><summary type="html"><![CDATA[Predicting]]></summary></entry><entry><title type="html">Detecting cardiac disfunctions using Transfer Learning</title><link href="http://localhost:4000/Transfer-Learning-Ecochardia.html" rel="alternate" type="text/html" title="Detecting cardiac disfunctions using Transfer Learning" /><published>2025-06-16T00:00:00+02:00</published><updated>2025-06-16T00:00:00+02:00</updated><id>http://localhost:4000/Transfer-Learning-Ecochardia</id><content type="html" xml:base="http://localhost:4000/Transfer-Learning-Ecochardia.html"><![CDATA[<p>Under development
+<p><em>Note: we have ommited train-test split and hyperparameter tuning for simplicity, but it is a good practice to avoid overfitting and achieve better generalization capabilities</em></p>
+
+<h3 id="citation">Citation</h3>
+
+<p>APA cite: Borras, J., Cortés-Fernández, I., &amp; Capó, M. (2024). Spatial distribution of cliff plant species in the Balearic Islands under current and projected climatic scenarios. Basic and Applied Ecology, 80, 1-10.</p>
+
+<p>BIBTEX cite:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{borras2024spatial,
+  title={Spatial distribution of cliff plant species in the Balearic Islands under current and projected climatic scenarios},
+  author={Borras, Joshua and Cort{\'e}s-Fern{\'a}ndez, Iv{\'a}n and Cap{\'o}, Miquel},
+  journal={Basic and Applied Ecology},
+  volume={80},
+  pages={1--10},
+  year={2024},
+  publisher={Elsevier}
+}
+</code></pre></div></div>]]></content><author><name>Iván Cortés Fernández</name></author><category term="manuscript" /><category term="R" /><category term="species distribution modelling" /><category term="machine learning" /><category term="artificial intelligence" /><category term="consrvation" /><summary type="html"><![CDATA[Species Distribution modelling (SDM) is a powerful tool that can be used to understand the distribution of certain species in a given area and be used to inform conservation efforts, especially for species that are threatened or endangered. In this post, we will discuss how we used Random Forests (RF) to model the distribution of cliff species in the Balearic Islands, Spain.]]></summary></entry><entry><title type="html">Detecting cardiac disfunctions using Transfer Learning</title><link href="http://localhost:4000/Transfer-Learning-Ecochardia.html" rel="alternate" type="text/html" title="Detecting cardiac disfunctions using Transfer Learning" /><published>2025-06-16T00:00:00+02:00</published><updated>2025-06-16T00:00:00+02:00</updated><id>http://localhost:4000/Transfer-Learning-Ecochardia</id><content type="html" xml:base="http://localhost:4000/Transfer-Learning-Ecochardia.html"><![CDATA[<p>Under development
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/tjzOzuKQhSM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --></p>
 
 <!-- <tweet>In a computer generated artistic work, both the person who undertook all the arrangements necessary for its creation as well as the original authors of the data input need to be credited.</tweet>  -->
