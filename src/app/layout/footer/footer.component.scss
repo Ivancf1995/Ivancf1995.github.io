@@ -1,0 +1,61 @@
+/* Footer: fondo oscuro, estilo style.jpeg */
+.footer {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-xl);
+  margin-top: auto;
+}
+
+.footer__inner {
+  display: grid;
+  gap: var(--space-lg);
+  text-align: center;
+}
+
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md) var(--space-xl);
+
+  a {
+    color: var(--color-white);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    opacity: 0.9;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.footer__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.footer__label {
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
+.footer__email {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-white);
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.footer__copy {
+  margin: 0;
+  font-size: 0.8125rem;
+  opacity: 0.75;
+}

@@ -1,0 +1,21 @@
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.card {
+  color: inherit;
+  border: 1px solid var(--color-border);
+
+  .card__image--placeholder {
+    aspect-ratio: 4 / 3;
+    background: var(--color-tertiary);
+  }
+}
+
+.muted {
+  color: var(--color-secondary);
+  margin-top: var(--space-lg);
+}

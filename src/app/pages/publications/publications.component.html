@@ -1,0 +1,45 @@
+<section class="section section--light">
+  <div class="container">
+    <h1>Publicaciones</h1>
+    <p>Artículos con DOI: título, autores, año y enlace al DOI. Solo descripción breve.</p>
+    @if (publications$ | async; as publications) {
+      @if (publications.length === 0) {
+        <p class="muted">Aún no hay publicaciones.</p>
+      } @else {
+        <div class="pub-filter">
+          <label for="pub-year" class="pub-filter__label">{{ 'PUBLICATIONS.FILTER_YEAR' | translate }}</label>
+          <select id="pub-year" class="pub-filter__select" [value]="selectedYear ?? ''" (change)="onYearChange($any($event.target).value)">
+            <option value="">{{ 'PUBLICATIONS.ALL_YEARS' | translate }}</option>
+            @for (y of yearsFromPublications(publications); track y) {
+              <option [value]="y">{{ y }}</option>
+            }
+          </select>
+        </div>
+        @if (filteredPublications(publications).length === 0) {
+          <p class="muted">{{ 'PUBLICATIONS.NO_RESULTS_YEAR' | translate }}</p>
+        } @else {
+        <ul class="pub-list">
+          @for (pub of filteredPublications(publications); track pub.id) {
+            <li class="pub-list__item" [class.pub-list__item--with-image]="pub.image_url">
+              <a [href]="pub.url || 'https://doi.org/' + pub.doi" target="_blank" rel="noopener noreferrer" class="pub-list__link">
+                @if (pub.image_url) {
+                  <img [src]="pub.image_url" [alt]="pub.title" class="pub-list__image" />
+                }
+                <span class="pub-list__text">
+                  <span class="pub-list__title">{{ pub.title }}</span>
+                  @if (pub.authors || pub.year) {
+                    <span class="pub-list__meta">
+                      {{ pub.authors }}{{ pub.authors && pub.year ? ' · ' : '' }}{{ pub.year }}
+                    </span>
+                  }
+                  <span class="pub-list__doi">DOI: {{ pub.doi }}</span>
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+        }
+      }
+    }
+  </div>
+</section>

@@ -1,0 +1,17 @@
+<footer class="footer">
+  <div class="footer__inner container">
+    <nav class="footer__nav" aria-label="Pie">
+      <a routerLink="/">{{ 'NAV.HOME' | translate }}</a>
+      <a routerLink="/formacion">{{ 'NAV.FORMATION' | translate }}</a>
+      <a routerLink="/portfolio">{{ 'NAV.PORTFOLIO' | translate }}</a>
+      <a routerLink="/publications">{{ 'NAV.PUBLICATIONS' | translate }}</a>
+      <a routerLink="/projects">{{ 'NAV.PROJECTS' | translate }}</a>
+      <a routerLink="/contact">{{ 'NAV.CONTACT' | translate }}</a>
+    </nav>
+    <div class="footer__contact">
+      <span class="footer__label">{{ 'FOOTER.EMAIL' | translate }}:</span>
+      <a href="mailto:contacto&#64;ivancortesfernandez.com" class="footer__email">contacto&#64;ivancortesfernandez.com</a>
+    </div>
+    <p class="footer__copy">{{ currentYear }} © Iván Cortés. {{ 'FOOTER.COPY' | translate }}.</p>
+  </div>
+</footer>

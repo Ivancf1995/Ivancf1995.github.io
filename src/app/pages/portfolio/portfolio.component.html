@@ -1,0 +1,30 @@
+<section class="section section--light">
+  <div class="container">
+    <h1>Portfolio</h1>
+    <p>{{ 'PORTFOLIO.INTRO' | translate }}</p>
+    @if (apps$ | async; as apps) {
+      @if (apps.length === 0) {
+        <p class="muted">{{ 'PORTFOLIO.EMPTY' | translate }}</p>
+      } @else {
+        <div class="card-grid">
+          @for (app of apps; track app.id) {
+            <a [href]="app.web_url" target="_blank" rel="noopener noreferrer" class="card">
+              @if (app.image_url) {
+                <img [src]="app.image_url" [alt]="app.title" class="card__image" />
+              } @else {
+                <div class="card__image card__image--placeholder"></div>
+              }
+              <div class="card__body">
+                <h3 class="card__title">{{ app.title }}</h3>
+                @if (app.description) {
+                  <p class="card__meta">{{ app.description }}</p>
+                }
+                <span class="card__link">Ver web →</span>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    }
+  </div>
+</section>

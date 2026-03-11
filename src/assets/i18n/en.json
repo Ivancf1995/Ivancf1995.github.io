@@ -1,0 +1,52 @@
+{
+  "NAV": {
+    "HOME": "Home",
+    "PORTFOLIO": "Webs & apps",
+    "PUBLICATIONS": "Publications",
+    "PROJECTS": "Research projects",
+    "FORMATION": "Formation",
+    "CONTACT": "Contact",
+    "BOOK_CALL": "Book a call"
+  },
+  "LANG": {
+    "SWITCH": "Switch language"
+  },
+  "HOME": {
+    "HELLO": "Hello",
+    "TAGLINE": "Biologist, researcher and developer. AI in Ecology and Health.",
+    "PROJECTS_COUNT": "Projects",
+    "APPS_COUNT": "Websites and Apps",
+    "PUBLICATIONS_COUNT": "Publications",
+    "SCROLL_DOWN": "Scroll down",
+    "LATEST_PROJECTS": "Latest projects",
+    "LATEST_PUBLICATIONS": "Latest publications",
+    "LATEST_APPS": "Latest websites and apps",
+    "SEE_ALL_PROJECTS": "View all projects",
+    "SEE_ALL_PUBLICATIONS": "View all publications",
+    "SEE_PORTFOLIO": "View portfolio"
+  },
+  "PORTFOLIO": {
+    "INTRO": "Websites and apps I'm building: short description and link to each site.",
+    "EMPTY": "No websites or apps published yet."
+  },
+  "PUBLICATIONS": {
+    "FILTER_YEAR": "Filter by year",
+    "ALL_YEARS": "All years",
+    "NO_RESULTS_YEAR": "No publications for the selected year."
+  },
+  "FORMATION": {
+    "TITLE": "Formation",
+    "TEASER": "Work experience, education, courses, languages and programming languages.",
+    "LINK": "View full formation",
+    "JOBS": "Work experience",
+    "STUDIES": "Education",
+    "COURSES": "Courses",
+    "LANGUAGES": "Languages",
+    "PROGRAMMING": "Programming languages",
+    "EMPTY": "No formation added yet."
+  },
+  "FOOTER": {
+    "COPY": "All rights reserved",
+    "EMAIL": "Contact"
+  }
+}

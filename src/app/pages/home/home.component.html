@@ -1,0 +1,159 @@
+<!-- Hero: estilo style.jpeg -->
+<section class="hero section section--light">
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <span class="hero__stat-value">{{ (appsCount$ | async) ?? '—' }}</span>
+          <span class="hero__stat-label">{{ 'HOME.APPS_COUNT' | translate }}</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">{{ (publicationsCount$ | async) ?? '—' }}</span>
+          <span class="hero__stat-label">{{ 'HOME.PUBLICATIONS_COUNT' | translate }}</span>
+        </div>
+      </div>
+      <h1 class="hero__title">{{ 'HOME.HELLO' | translate }}</h1>
+      <p class="hero__tagline">— {{ 'HOME.TAGLINE' | translate }}</p>
+      <nav class="hero__social" aria-label="Redes y perfiles académicos">
+        @if (socialLinks.linkedin) {
+          <a [href]="socialLinks.linkedin" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="LinkedIn">
+            <svg class="hero__social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        }
+        @if (socialLinks.orcid) {
+          <a [href]="socialLinks.orcid" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="ORCID">
+            <svg class="hero__social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-2.5 4.378a1.622 1.622 0 1 1 0 3.244 1.622 1.622 0 0 1 0-3.244zm.813 15.244V9.455h3.375v10.167h-3.375z"/></svg>
+          </a>
+        }
+        @if (socialLinks.googleScholar) {
+          <a [href]="socialLinks.googleScholar" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="Google Scholar">
+            <svg class="hero__social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6L23 9 12 3zm0 2.18l6.9 4.5L12 11.18 5.1 9.5 12 5.18zM5 12.18l2 1.08V18l5 2.73 5-2.73v-4.74l2-1.08V11L12 14.09 5 11v1.18z"/></svg>
+          </a>
+        }
+        @if (socialLinks.github) {
+          <a [href]="socialLinks.github" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="GitHub">
+            <svg class="hero__social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        }
+      </nav>
+    </div>
+    <div class="hero__image-wrap">
+      <img
+        src="assets/i18n/images/foto_portada.png"
+        alt="Iván Cortés"
+        class="hero__image"
+      />
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <span>{{ 'HOME.SCROLL_DOWN' | translate }}</span>
+    <span class="hero__scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- Últimos proyectos (con imagen si existe) -->
+<section class="home-teaser section section--light" id="projects-teaser">
+  <div class="container">
+    <h2 class="home-teaser__title">{{ 'HOME.LATEST_PROJECTS' | translate }}</h2>
+    @if (projects$ | async; as projects) {
+      @if (projects.length > 0) {
+        <ul class="home-teaser__list home-teaser__list--with-images">
+          @for (proj of projects.slice(0, latestCount); track proj.id) {
+            <li class="home-teaser__item" [class.home-teaser__item--row]="proj.image_url">
+              @if (proj.image_url) {
+                <a routerLink="/projects" class="home-teaser__link home-teaser__link--row">
+                  <img [src]="proj.image_url" [alt]="proj.title" class="home-teaser__thumb home-teaser__thumb--proj" />
+                  <span class="home-teaser__item-content">
+                    <span class="home-teaser__item-title">{{ proj.title }}</span>
+                    @if (proj.description) {
+                      <span class="home-teaser__item-meta">{{ proj.description }}</span>
+                    }
+                  </span>
+                </a>
+              } @else {
+                <span class="home-teaser__item-content">
+                  <span class="home-teaser__item-title">{{ proj.title }}</span>
+                  @if (proj.description) {
+                    <span class="home-teaser__item-meta">{{ proj.description }}</span>
+                  }
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+      <a routerLink="/projects" class="btn btn--outline home-teaser__cta">{{ 'HOME.SEE_ALL_PROJECTS' | translate }}</a>
+    }
+  </div>
+</section>
+
+<!-- Últimas publicaciones (con imagen si existe) -->
+<section class="home-teaser section section--tertiary" id="publications-teaser">
+  <div class="container">
+    <h2 class="home-teaser__title">{{ 'HOME.LATEST_PUBLICATIONS' | translate }}</h2>
+    @if (publications$ | async; as publications) {
+      @if (publications.length > 0) {
+        <ul class="home-teaser__list home-teaser__list--with-images">
+          @for (pub of publications.slice(0, latestCount); track pub.id) {
+            <li class="home-teaser__item home-teaser__item--row">
+              <a [href]="pub.url || 'https://doi.org/' + pub.doi" target="_blank" rel="noopener noreferrer" class="home-teaser__link home-teaser__link--row">
+                @if (pub.image_url) {
+                  <img [src]="pub.image_url" [alt]="pub.title" class="home-teaser__thumb home-teaser__thumb--pub" />
+                } @else {
+                  <div class="home-teaser__thumb home-teaser__thumb--pub home-teaser__thumb--placeholder"></div>
+                }
+                <span class="home-teaser__item-content">
+                  <span class="home-teaser__item-title">{{ pub.title }}</span>
+                  @if (pub.year) {
+                    <span class="home-teaser__item-meta">{{ pub.year }}</span>
+                  }
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+      <a routerLink="/publications" class="btn btn--outline home-teaser__cta">{{ 'HOME.SEE_ALL_PUBLICATIONS' | translate }}</a>
+    }
+  </div>
+</section>
+
+<!-- Últimas webs y apps (con imagen) -->
+<section class="home-teaser section section--light" id="portfolio-teaser">
+  <div class="container">
+    <h2 class="home-teaser__title">{{ 'HOME.LATEST_APPS' | translate }}</h2>
+    @if (apps$ | async; as apps) {
+      @if (apps.length > 0) {
+        <ul class="home-teaser__list home-teaser__list--with-images">
+          @for (app of apps.slice(0, latestCount); track app.id) {
+            <li class="home-teaser__item home-teaser__item--row">
+              <a [href]="app.web_url" target="_blank" rel="noopener noreferrer" class="home-teaser__link home-teaser__link--row">
+                @if (app.image_url) {
+                  <img [src]="app.image_url" [alt]="app.title" class="home-teaser__thumb" />
+                } @else {
+                  <div class="home-teaser__thumb home-teaser__thumb--placeholder"></div>
+                }
+                <span class="home-teaser__item-content">
+                  <span class="home-teaser__item-title">{{ app.title }}</span>
+                  @if (app.description) {
+                    <span class="home-teaser__item-meta">{{ app.description }}</span>
+                  }
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+      <a routerLink="/portfolio" class="btn btn--outline home-teaser__cta">{{ 'HOME.SEE_PORTFOLIO' | translate }}</a>
+    }
+  </div>
+</section>
+
+<!-- Formación: enlace a la página completa -->
+<section class="formation-teaser section section--tertiary" id="formacion">
+  <div class="container">
+    <h2 class="formation-teaser__title">{{ 'NAV.FORMATION' | translate }}</h2>
+    <p class="formation-teaser__text">{{ 'FORMATION.TEASER' | translate }}</p>
+    <a routerLink="/formacion" class="btn btn--outline">{{ 'FORMATION.LINK' | translate }}</a>
+  </div>
+</section>

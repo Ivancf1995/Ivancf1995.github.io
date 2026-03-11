@@ -1,0 +1,230 @@
+/* Hero: texto a la izquierda, imagen grande centrada a la derecha */
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr 7.2fr;
+  gap: var(--space-3xl);
+  align-items: stretch;
+  min-height: 90vh;
+}
+
+.hero__stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.hero__stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.hero__stat-label {
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: var(--space-md);
+}
+
+.hero__tagline {
+  font-size: 1.125rem;
+  color: var(--color-secondary);
+  max-width: 28ch;
+}
+
+.hero__social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.hero__social-link {
+  color: var(--color-primary);
+  transition: opacity 0.2s ease;
+}
+
+.hero__social-link:hover {
+  opacity: 0.6;
+}
+
+.hero__social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+
+.hero__image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  min-width: 0;
+}
+
+/* Imagen llena toda la columna del hero de arriba a abajo (cover + anclada al fondo) */
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+.hero__scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-2xl);
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+.hero__scroll-arrow {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-top: var(--space-xl);
+  }
+
+  .hero__image-wrap {
+    order: -1;
+    min-height: 70vh;
+  }
+
+  .hero__image {
+    object-fit: cover;
+    object-position: center bottom;
+  }
+}
+
+/* Bloques teaser: últimos proyectos, publicaciones, apps (misma línea que Formación) */
+.home-teaser__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-lg);
+}
+
+.home-teaser__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-lg);
+}
+
+.home-teaser__item {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-md) 0;
+}
+
+.home-teaser__item:last-child {
+  border-bottom: none;
+}
+
+.home-teaser__item-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.home-teaser__item-meta {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--color-secondary);
+  line-height: 1.4;
+}
+
+.home-teaser__link {
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--transition-fast, 0.15s ease);
+  display: block;
+  margin: calc(-1 * var(--space-md)) 0;
+  padding: var(--space-md) 0;
+}
+
+.home-teaser__link:hover {
+  background-color: var(--color-tertiary);
+}
+
+.home-teaser__cta {
+  display: inline-block;
+}
+
+/* Filas con imagen (apps y publicaciones) */
+.home-teaser__item--row .home-teaser__link--row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  margin: 0 calc(-1 * var(--space-md)) 0 0;
+}
+
+.home-teaser__thumb {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-tertiary);
+}
+
+.home-teaser__thumb--placeholder {
+  width: 160px;
+  height: 120px;
+  flex-shrink: 0;
+  background: var(--color-tertiary);
+}
+
+.home-teaser__thumb--pub {
+  width: 220px;
+  height: 165px;
+}
+
+.home-teaser__thumb--pub.home-teaser__thumb--placeholder {
+  width: 220px;
+  height: 165px;
+}
+
+.home-teaser__thumb--proj {
+  width: 160px;
+  height: 120px;
+}
+
+.home-teaser__item-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+/* Formación teaser en home */
+.formation-teaser__title {
+  margin-bottom: var(--space-md);
+}
+
+.formation-teaser__text {
+  color: var(--color-secondary);
+  max-width: 50ch;
+  margin-bottom: var(--space-lg);
+}

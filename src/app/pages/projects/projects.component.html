@@ -1,0 +1,52 @@
+<section class="section section--light">
+  <div class="container">
+    <h1>Proyectos</h1>
+    <p>Proyectos en los que estoy trabajando: descripción, presupuesto y equipo.</p>
+    @if (projects$ | async; as projects) {
+      @if (projects.length === 0) {
+        <p class="muted">Aún no hay proyectos listados.</p>
+      } @else {
+        @if (budgetChartData(projects).length > 0) {
+          <div class="proj-chart">
+            <h2 class="proj-chart__title">Presupuestos por proyecto</h2>
+            <div class="proj-chart__bars">
+              @for (bar of budgetChartData(projects); track bar.id) {
+                <div class="proj-chart__row">
+                  <span class="proj-chart__label">{{ bar.title }}</span>
+                  <div class="proj-chart__track">
+                    <div class="proj-chart__bar" [style.width.%]="bar.percent"></div>
+                  </div>
+                  <span class="proj-chart__value">{{ bar.value }} €</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+        <ul class="proj-list">
+          @for (proj of projects; track proj.id) {
+            <li class="proj-list__item" [class.proj-list__item--with-image]="proj.image_url">
+              @if (proj.image_url) {
+                <img [src]="proj.image_url" [alt]="proj.title" class="proj-list__image" />
+              }
+              <div class="proj-list__body">
+                <span class="proj-list__title">{{ proj.title }}</span>
+                @if (proj.description) {
+                  <p class="proj-list__desc">{{ proj.description }}</p>
+                }
+                @if (proj.budget != null) {
+                  <p class="proj-list__meta"><strong>Presupuesto:</strong> {{ proj.budget | number:'1.0-0' }} €</p>
+                }
+                @if (proj.team) {
+                  <p class="proj-list__meta"><strong>Equipo:</strong> {{ proj.team }}</p>
+                }
+                @if (proj.url) {
+                  <a [href]="proj.url" target="_blank" rel="noopener noreferrer" class="proj-list__link">Ver más →</a>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    }
+  </div>
+</section>

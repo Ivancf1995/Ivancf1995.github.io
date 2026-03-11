@@ -1,0 +1,32 @@
+<section class="section section--light">
+  <div class="container contact">
+    <h1>Contacto</h1>
+    <p>¿Tienes una idea? Escríbeme por aquí o por email.</p>
+    @if (success) {
+      <p class="contact__success">Mensaje enviado. Te responderé pronto.</p>
+    }
+    @if (error) {
+      <p class="contact__error">{{ error }}</p>
+    }
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="contact__form">
+      <label class="contact__label">
+        <span>Nombre</span>
+        <input type="text" formControlName="name" class="contact__input" />
+      </label>
+      <label class="contact__label">
+        <span>Email</span>
+        <input type="email" formControlName="email" class="contact__input" />
+      </label>
+      <label class="contact__label">
+        <span>Mensaje</span>
+        <textarea formControlName="message" rows="4" class="contact__input contact__textarea"></textarea>
+      </label>
+      <button type="submit" class="btn btn--primary" [disabled]="form.invalid || sending">
+        {{ sending ? 'Enviando…' : 'Enviar' }}
+      </button>
+    </form>
+    <p class="contact__email">
+      O escribe a <a href="mailto:ivancf1995&#64;hotmail.com">ivancf1995&#64;hotmail.com</a>
+    </p>
+  </div>
+</section>

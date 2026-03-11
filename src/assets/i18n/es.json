@@ -1,0 +1,52 @@
+{
+  "NAV": {
+    "HOME": "Inicio",
+    "PORTFOLIO": "Webs y apps",
+    "PUBLICATIONS": "Publicaciones",
+    "PROJECTS": "Proyectos de investigación",
+    "FORMATION": "Formación",
+    "CONTACT": "Contacto",
+    "BOOK_CALL": "Contactar"
+  },
+  "LANG": {
+    "SWITCH": "Cambiar idioma"
+  },
+  "HOME": {
+    "HELLO": "Bienvenido",
+      "TAGLINE": "Me llamo Iván Cortés y soy biólogo. Me dedico a la investigación, aunque me encanta programar y hacer proyectos random. Mi especialidad es la IA en Ecología y Salud.",
+      "PROJECTS_COUNT": "Proyectos",
+    "APPS_COUNT": "Webs y apps",
+    "PUBLICATIONS_COUNT": "Publicaciones",
+    "SCROLL_DOWN": "Desplázate",
+    "LATEST_PROJECTS": "Últimos proyectos",
+    "LATEST_PUBLICATIONS": "Últimas publicaciones",
+    "LATEST_APPS": "Últimas webs y apps",
+    "SEE_ALL_PROJECTS": "Ver todos los proyectos",
+    "SEE_ALL_PUBLICATIONS": "Ver todas las publicaciones",
+    "SEE_PORTFOLIO": "Ver portfolio"
+  },
+  "PORTFOLIO": {
+    "INTRO": "Webs y apps que voy creando: descripción breve y enlace a cada web.",
+    "EMPTY": "Aún no hay webs ni apps publicadas."
+  },
+  "PUBLICATIONS": {
+    "FILTER_YEAR": "Filtrar por año",
+    "ALL_YEARS": "Todos los años",
+    "NO_RESULTS_YEAR": "No hay publicaciones en el año seleccionado."
+  },
+  "FORMATION": {
+    "TITLE": "Formación",
+    "TEASER": "Trabajos, estudios, cursos, idiomas y lenguajes de programación.",
+    "LINK": "Ver toda mi formación",
+    "JOBS": "Trabajos",
+    "STUDIES": "Estudios",
+    "COURSES": "Cursos",
+    "LANGUAGES": "Idiomas",
+    "PROGRAMMING": "Lenguajes de programación",
+    "EMPTY": "Aún no hay formación añadida."
+  },
+  "FOOTER": {
+    "COPY": "Todos los derechos reservados",
+    "EMAIL": "Contacto"
+  }
+}

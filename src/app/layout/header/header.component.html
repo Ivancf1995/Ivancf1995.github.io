@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="header__inner container">
+    <a routerLink="/" class="header__logo" aria-label="Inicio">
+      <span class="header__logo-mark">IC</span>
+    </a>
+    <nav class="header__nav" aria-label="Principal">
+      <a routerLink="/" routerLinkActive="header__link--active" [routerLinkActiveOptions]="{ exact: true }" class="header__link">{{ 'NAV.HOME' | translate }}</a>
+      <a routerLink="/publications" routerLinkActive="header__link--active" class="header__link">{{ 'NAV.PUBLICATIONS' | translate }}</a>
+      <a routerLink="/projects" routerLinkActive="header__link--active" class="header__link">{{ 'NAV.PROJECTS' | translate }}</a>
+      <a routerLink="/portfolio" routerLinkActive="header__link--active" class="header__link">{{ 'NAV.PORTFOLIO' | translate }}</a>
+      <a routerLink="/formacion" routerLinkActive="header__link--active" class="header__link">{{ 'NAV.FORMATION' | translate }}</a>
+    </nav>
+    <div class="header__actions">
+      <button type="button" class="lang-toggle" (click)="toggleLang()" [attr.aria-label]="'LANG.SWITCH' | translate">
+        {{ currentLang === 'es' ? 'EN' : 'ES' }}
+      </button>
+      <a routerLink="/contact" class="btn btn--primary header__cta">{{ 'NAV.BOOK_CALL' | translate }}</a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,276 @@
+<div class="dashboard container">
+  <header class="dashboard__header">
+    <h1>Admin</h1>
+    <button type="button" class="btn btn--outline" (click)="signOut()">Cerrar sesión</button>
+  </header>
+
+  <section class="dashboard__section">
+    <h2>Añadir publicación (DOI)</h2>
+    <p class="dashboard__hint">Pega un DOI (ej. 10.1128/mbio.01735-25) para obtener metadatos y guardar.</p>
+    @if (doiError) {
+      <p class="dashboard__error">{{ doiError }}</p>
+    }
+    @if (doiSuccess) {
+      <p class="dashboard__success">{{ doiSuccess }}</p>
+    }
+    <div class="dashboard__row">
+      <input
+        type="text"
+        [(ngModel)]="doiInput"
+        placeholder="10.1234/ejemplo.2024.1"
+        class="dashboard__input"
+      />
+      <button type="button" class="btn btn--primary" (click)="addDoi()" [disabled]="doiLoading">
+        {{ doiLoading ? 'Guardando…' : 'Obtener y guardar' }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dashboard__section">
+    <h2>Publicaciones</h2>
+    @if (publications$ | async; as list) {
+      @if (list.length === 0) {
+        <p class="muted">Ninguna publicación.</p>
+      } @else {
+        <ul class="dashboard__list">
+          @for (pub of list; track pub.id) {
+            <li class="dashboard__list-item" [class.dashboard__list-item--editing]="editingPubId === pub.id">
+              @if (editingPubId === pub.id) {
+                <form [formGroup]="editPublicationForm" (ngSubmit)="saveEditPublication()" class="dashboard__edit-form">
+                  <input formControlName="title" placeholder="Título" class="dashboard__input" />
+                  <input formControlName="authors" placeholder="Autores" class="dashboard__input" />
+                  <input type="number" formControlName="year" placeholder="Año" class="dashboard__input" min="1900" max="2100" />
+                  <input formControlName="journal" placeholder="Revista" class="dashboard__input" />
+                  <input formControlName="url" placeholder="URL" class="dashboard__input" />
+                  <textarea formControlName="abstract" placeholder="Resumen" class="dashboard__input dashboard__textarea" rows="2"></textarea>
+                  <div class="dashboard__image-upload">
+                    <label class="dashboard__label">Imagen del artículo</label>
+                    <div class="dashboard__image-row">
+                      <input type="file" accept="image/*" (change)="onPublicationImageFile($event)" [disabled]="appImageUploading" class="dashboard__file" />
+                      <span class="dashboard__image-hint">o pega URL abajo</span>
+                    </div>
+                    @if (appImageUploading) {
+                      <p class="dashboard__uploading">Subiendo imagen…</p>
+                    }
+                    @if (publicationImagePreview) {
+                      <div class="dashboard__preview-wrap">
+                        <img [src]="publicationImagePreview" alt="Vista previa" class="dashboard__preview" />
+                        <button type="button" class="btn-link dashboard__clear-img" (click)="clearPublicationImage()">Quitar imagen</button>
+                      </div>
+                    }
+                    <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+                  </div>
+                  <div class="dashboard__edit-actions">
+                    <button type="submit" class="btn btn--primary" [disabled]="editPublicationForm.invalid">Guardar</button>
+                    <button type="button" class="btn btn--outline" (click)="cancelEditPublication()">Cancelar</button>
+                  </div>
+                </form>
+              } @else {
+                <span>{{ pub.title }} ({{ pub.year }})</span>
+                <span class="dashboard__item-actions">
+                  <button type="button" class="btn-link" (click)="startEditPublication(pub)">Editar</button>
+                  <button type="button" class="btn-link" (click)="deletePublication(pub.id)">Eliminar</button>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
+
+  <section class="dashboard__section">
+    <h2>Proyectos</h2>
+    <form (ngSubmit)="submitProject()" [formGroup]="projectForm" class="dashboard__form">
+      <input formControlName="title" placeholder="Título" class="dashboard__input" />
+      <textarea formControlName="description" placeholder="Descripción" class="dashboard__input dashboard__textarea" rows="3"></textarea>
+      <input type="number" formControlName="budget" placeholder="Presupuesto (ej. 50000)" class="dashboard__input" min="0" step="any" />
+      <input formControlName="team" placeholder="Equipo (nombres o roles)" class="dashboard__input" />
+      <div class="dashboard__image-upload">
+        <label class="dashboard__label">Imagen del proyecto</label>
+        <div class="dashboard__image-row">
+          <input type="file" accept="image/*" (change)="onProjectAddImageFile($event)" [disabled]="appImageUploading" class="dashboard__file" />
+          <span class="dashboard__image-hint">o pega URL abajo</span>
+        </div>
+        @if (projectAddImagePreview) {
+          <div class="dashboard__preview-wrap">
+            <img [src]="projectAddImagePreview" alt="Vista previa" class="dashboard__preview" />
+            <button type="button" class="btn-link dashboard__clear-img" (click)="clearProjectAddImage()">Quitar imagen</button>
+          </div>
+        }
+        <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+      </div>
+      <button type="submit" class="btn btn--primary" [disabled]="projectForm.invalid || projectSaving">
+        {{ projectSaving ? 'Guardando…' : 'Añadir proyecto' }}
+      </button>
+    </form>
+    @if (projects$ | async; as projects) {
+      @if (projects.length > 0) {
+        <ul class="dashboard__list">
+          @for (proj of projects; track proj.id) {
+            <li class="dashboard__list-item" [class.dashboard__list-item--editing]="editingProjId === proj.id">
+              @if (editingProjId === proj.id) {
+                <form [formGroup]="editProjectForm" (ngSubmit)="saveEditProject()" class="dashboard__edit-form">
+                  <input formControlName="title" placeholder="Título" class="dashboard__input" />
+                  <textarea formControlName="description" placeholder="Descripción" class="dashboard__input dashboard__textarea" rows="3"></textarea>
+                  <input type="number" formControlName="budget" placeholder="Presupuesto" class="dashboard__input" min="0" step="any" />
+                  <input formControlName="team" placeholder="Equipo" class="dashboard__input" />
+                  <div class="dashboard__image-upload">
+                    <label class="dashboard__label">Imagen del proyecto</label>
+                    <div class="dashboard__image-row">
+                      <input type="file" accept="image/*" (change)="onProjectEditImageFile($event)" [disabled]="appImageUploading" class="dashboard__file" />
+                      <span class="dashboard__image-hint">o URL abajo</span>
+                    </div>
+                    @if (projectImagePreview) {
+                      <div class="dashboard__preview-wrap">
+                        <img [src]="projectImagePreview" alt="Vista previa" class="dashboard__preview" />
+                        <button type="button" class="btn-link dashboard__clear-img" (click)="clearProjectEditImage()">Quitar imagen</button>
+                      </div>
+                    }
+                    <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+                  </div>
+                  <div class="dashboard__edit-actions">
+                    <button type="submit" class="btn btn--primary" [disabled]="editProjectForm.invalid">Guardar</button>
+                    <button type="button" class="btn btn--outline" (click)="cancelEditProject()">Cancelar</button>
+                  </div>
+                </form>
+              } @else {
+                <span>{{ proj.title }}{{ proj.budget != null ? ' — ' + proj.budget + ' €' : '' }}</span>
+                <span class="dashboard__item-actions">
+                  <button type="button" class="btn-link" (click)="startEditProject(proj)">Editar</button>
+                  <button type="button" class="btn-link" (click)="deleteProject(proj.id)">Eliminar</button>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
+
+  <section class="dashboard__section">
+    <h2>Websites and Apps</h2>
+    <form (ngSubmit)="submitApp()" [formGroup]="appForm" class="dashboard__form">
+      <input formControlName="title" placeholder="Título" class="dashboard__input" />
+      <input formControlName="description" placeholder="Descripción breve" class="dashboard__input" />
+      <input formControlName="web_url" placeholder="URL de la app" class="dashboard__input" />
+      <div class="dashboard__image-upload">
+        <label class="dashboard__label">Imagen de la app</label>
+        <div class="dashboard__image-row">
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onAppImageFile($event)"
+            [disabled]="appImageUploading"
+            class="dashboard__file"
+          />
+          <span class="dashboard__image-hint">o pega una URL abajo</span>
+        </div>
+        @if (appImageUploading) {
+          <p class="dashboard__uploading">Subiendo imagen…</p>
+        }
+        @if (appImagePreview) {
+          <div class="dashboard__preview-wrap">
+            <img [src]="appImagePreview" alt="Vista previa" class="dashboard__preview" />
+            <button type="button" class="btn-link dashboard__clear-img" (click)="clearAppImage()">Quitar imagen</button>
+          </div>
+        }
+        <input formControlName="image_url" placeholder="URL de la imagen (si no subes archivo)" class="dashboard__input" />
+      </div>
+      <button type="submit" class="btn btn--primary" [disabled]="appForm.invalid || appSaving || appImageUploading">
+        {{ appSaving ? 'Guardando…' : 'Añadir app' }}
+      </button>
+    </form>
+    @if (apps$ | async; as apps) {
+      @if (apps.length > 0) {
+        <ul class="dashboard__list">
+          @for (app of apps; track app.id) {
+            <li class="dashboard__list-item" [class.dashboard__list-item--editing]="editingAppId === app.id">
+              @if (editingAppId === app.id) {
+                <form [formGroup]="editAppForm" (ngSubmit)="saveEditApp()" class="dashboard__edit-form">
+                  <input formControlName="title" placeholder="Título" class="dashboard__input" />
+                  <input formControlName="description" placeholder="Descripción breve" class="dashboard__input" />
+                  <input formControlName="web_url" placeholder="URL de la app" class="dashboard__input" />
+                  <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+                  @if (appImagePreview) {
+                    <div class="dashboard__preview-wrap">
+                      <img [src]="appImagePreview" alt="Vista previa" class="dashboard__preview" />
+                    </div>
+                  }
+                  <div class="dashboard__edit-actions">
+                    <button type="submit" class="btn btn--primary" [disabled]="editAppForm.invalid">Guardar</button>
+                    <button type="button" class="btn btn--outline" (click)="cancelEditApp()">Cancelar</button>
+                  </div>
+                </form>
+              } @else {
+                <span>{{ app.title }} — {{ app.web_url }}</span>
+                <span class="dashboard__item-actions">
+                  <button type="button" class="btn-link" (click)="startEditApp(app)">Editar</button>
+                  <button type="button" class="btn-link" (click)="deleteApp(app.id)">Eliminar</button>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
+
+  <section class="dashboard__section">
+    <h2>Formación</h2>
+    <p class="dashboard__hint">Trabajos, estudios, cursos, idiomas y lenguajes de programación. Texto libre; en idiomas y lenguajes puedes indicar nivel (ej. C1, Avanzado).</p>
+    <form (ngSubmit)="submitFormation()" [formGroup]="formationForm" class="dashboard__form">
+      <select formControlName="type" class="dashboard__input">
+        @for (opt of formationTypes; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+      <input formControlName="title" placeholder="Título (opcional)" class="dashboard__input" />
+      <textarea formControlName="content" placeholder="Texto libre (obligatorio)" class="dashboard__input dashboard__textarea" rows="4"></textarea>
+      <input formControlName="level" placeholder="Nivel (opcional; para idiomas y lenguajes)" class="dashboard__input" />
+      <button type="submit" class="btn btn--primary" [disabled]="formationForm.invalid || formationSaving">
+        {{ formationSaving ? 'Guardando…' : 'Añadir' }}
+      </button>
+    </form>
+    @if (formation$ | async; as list) {
+      @if (list.length === 0) {
+        <p class="muted">Ningún ítem de formación.</p>
+      } @else {
+        <ul class="dashboard__list">
+          @for (item of list; track item.id) {
+            <li class="dashboard__list-item" [class.dashboard__list-item--editing]="editingFormationId === item.id">
+              @if (editingFormationId === item.id) {
+                <form [formGroup]="editFormationForm" (ngSubmit)="saveEditFormation()" class="dashboard__edit-form">
+                  <select formControlName="type" class="dashboard__input">
+                    @for (opt of formationTypes; track opt.value) {
+                      <option [value]="opt.value">{{ opt.label }}</option>
+                    }
+                  </select>
+                  <input formControlName="title" placeholder="Título (opcional)" class="dashboard__input" />
+                  <textarea formControlName="content" placeholder="Texto libre" class="dashboard__input dashboard__textarea" rows="4"></textarea>
+                  <input formControlName="level" placeholder="Nivel" class="dashboard__input" />
+                  <div class="dashboard__edit-actions">
+                    <button type="submit" class="btn btn--primary" [disabled]="editFormationForm.invalid">Guardar</button>
+                    <button type="button" class="btn btn--outline" (click)="cancelEditFormation()">Cancelar</button>
+                  </div>
+                </form>
+              } @else {
+                <span>
+                  <strong>{{ formationTypeLabel(item.type) }}:</strong>
+                  {{ item.title || item.content.slice(0, 60) }}{{ item.content.length > 60 ? '…' : '' }}
+                  @if (item.level) {
+                    <em> — {{ item.level }}</em>
+                  }
+                </span>
+                <span class="dashboard__item-actions">
+                  <button type="button" class="btn-link" (click)="startEditFormation(item)">Editar</button>
+                  <button type="button" class="btn-link" (click)="deleteFormation(item.id)">Eliminar</button>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
+</div>
