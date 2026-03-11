@@ -1,0 +1,43 @@
+<section class="gallery-section" aria-labelledby="gallery-heading">
+  <h1 id="gallery-heading" class="sr-only">{{ 'GALLERY.TITLE' | translate }}</h1>
+  <div class="gallery-container container">
+    <header class="gallery-header">
+      <div class="gallery-search">
+        <span class="gallery-search__icon" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          class="gallery-search__input"
+          [placeholder]="'GALLERY.SEARCH_PLACEHOLDER' | translate"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          [attr.aria-label]="'GALLERY.SEARCH_PLACEHOLDER' | translate"
+        />
+      </div>
+      <a routerLink="/contact" class="gallery-settings">
+        <span class="gallery-settings__icon" aria-hidden="true">⚙</span>
+        <span class="gallery-settings__label">{{ 'GALLERY.SETTINGS' | translate }}</span>
+      </a>
+    </header>
+
+    @if ((filteredItems().length) === 0) {
+      <p class="gallery-empty">{{ 'GALLERY.NO_RESULTS' | translate }}</p>
+    } @else {
+      <div class="gallery-grid">
+        @for (item of filteredItems(); track item.id) {
+          <article class="gallery-card">
+            <img
+              [src]="item.image_url"
+              [alt]="item.title || ('GALLERY.IMAGE_ALT' | translate)"
+              class="gallery-card__image"
+              loading="lazy"
+            />
+          </article>
+        }
+      </div>
+
+      <div class="gallery-scroll-hint" aria-hidden="true">
+        <span class="gallery-scroll-hint__arrow">↓</span>
+      </div>
+    }
+  </div>
+</section>

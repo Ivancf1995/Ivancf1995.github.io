@@ -7,6 +7,7 @@ import { PublicationsService } from '../../core/services/publications.service';
 import { AppsService } from '../../core/services/apps.service';
 import { ProjectsService } from '../../core/services/projects.service';
 import { FormationService } from '../../core/services/formation.service';
+import { GalleryService } from '../../core/services/gallery.service';
 import { StorageService } from '../../core/services/storage.service';
 import type { FormationType } from '../../core/models/formation.model';
 
@@ -24,6 +25,7 @@ export class DashboardComponent {
   private apps = inject(AppsService);
   private projects = inject(ProjectsService);
   private formation = inject(FormationService);
+  private gallery = inject(GalleryService);
   private storage = inject(StorageService);
   private router = inject(Router);
 
@@ -42,12 +44,17 @@ export class DashboardComponent {
   apps$ = this.apps.getApps();
   projects$ = this.projects.getProjects();
   formation$ = this.formation.getFormation();
+  gallery$ = this.gallery.getGallery();
   projectSaving = false;
   formationSaving = false;
+  gallerySaving = false;
   editingPubId: string | null = null;
   editingProjId: string | null = null;
   editingAppId: string | null = null;
   editingFormationId: string | null = null;
+  editingGalleryId: string | null = null;
+  galleryImagePreview: string | null = null;
+  galleryEditImagePreview: string | null = null;
 
   readonly formationTypes: { value: FormationType; label: string }[] = [
     { value: 'job', label: 'Trabajo' },
@@ -67,6 +74,10 @@ export class DashboardComponent {
 
   refreshFormation(): void {
     this.formation$ = this.formation.getFormation();
+  }
+
+  refreshGallery(): void {
+    this.gallery$ = this.gallery.getGallery();
   }
 
   appForm = this.fb.group({
@@ -121,6 +132,20 @@ export class DashboardComponent {
     title: [''],
     content: ['', Validators.required],
     level: ['']
+  });
+
+  galleryForm = this.fb.group({
+    title: [''],
+    image_url: ['', Validators.required],
+    author: [''],
+    tags: ['']
+  });
+
+  editGalleryForm = this.fb.group({
+    title: [''],
+    image_url: ['', Validators.required],
+    author: [''],
+    tags: ['']
   });
 
   async signOut(): Promise<void> {
@@ -485,5 +510,115 @@ export class DashboardComponent {
     const { error } = await this.formation.delete(id);
     if (error) this.doiError = (error as { message?: string }).message || 'Error al eliminar';
     else this.refreshFormation();
+  }
+
+  async submitGallery(): Promise<void> {
+    if (this.galleryForm.invalid || this.gallerySaving) return;
+    this.gallerySaving = true;
+    const v = this.galleryForm.getRawValue();
+    const { error } = await this.gallery.create({
+      title: v.title || undefined,
+      image_url: v.image_url,
+      author: v.author || undefined,
+      tags: v.tags || undefined
+    });
+    this.gallerySaving = false;
+    if (error) {
+      this.doiError = (error as { message?: string }).message || 'Error al crear elemento de galería';
+      return;
+    }
+    this.galleryForm.reset({ title: '', image_url: '', author: '', tags: '' });
+    this.galleryImagePreview = null;
+    this.refreshGallery();
+  }
+
+  async onGalleryImageFile(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    this.appImageUploading = true;
+    this.doiError = '';
+    const path = this.storage.uniquePath('gallery', file);
+    const { url, error } = await this.storage.uploadImage(path, file);
+    this.appImageUploading = false;
+    input.value = '';
+    if (error) {
+      this.doiError = (error as { message?: string }).message || 'Error al subir la imagen';
+      return;
+    }
+    if (url) {
+      this.galleryForm.patchValue({ image_url: url });
+      this.galleryImagePreview = url;
+    }
+  }
+
+  clearGalleryImage(): void {
+    this.galleryForm.patchValue({ image_url: '' });
+    this.galleryImagePreview = null;
+  }
+
+  async onGalleryEditImageFile(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    this.appImageUploading = true;
+    this.doiError = '';
+    const path = this.storage.uniquePath('gallery', file);
+    const { url, error } = await this.storage.uploadImage(path, file);
+    this.appImageUploading = false;
+    input.value = '';
+    if (error) {
+      this.doiError = (error as { message?: string }).message || 'Error al subir la imagen';
+      return;
+    }
+    if (url) {
+      this.editGalleryForm.patchValue({ image_url: url });
+      this.galleryEditImagePreview = url;
+    }
+  }
+
+  clearGalleryEditImage(): void {
+    this.editGalleryForm.patchValue({ image_url: '' });
+    this.galleryEditImagePreview = null;
+  }
+
+  startEditGallery(item: { id: string; title: string | null; image_url: string; author: string | null; tags: string | null }): void {
+    this.editingGalleryId = item.id;
+    this.galleryEditImagePreview = item.image_url;
+    this.editGalleryForm.patchValue({
+      title: item.title ?? '',
+      image_url: item.image_url,
+      author: item.author ?? '',
+      tags: item.tags ?? ''
+    });
+  }
+
+  cancelEditGallery(): void {
+    this.editingGalleryId = null;
+    this.galleryEditImagePreview = null;
+  }
+
+  async saveEditGallery(): Promise<void> {
+    if (!this.editingGalleryId || this.editGalleryForm.invalid) return;
+    const v = this.editGalleryForm.getRawValue();
+    const { error } = await this.gallery.update(this.editingGalleryId, {
+      title: v.title || null,
+      image_url: v.image_url,
+      author: v.author || null,
+      tags: v.tags || null
+    });
+    if (error) this.doiError = (error as { message?: string }).message || 'Error al guardar';
+    else {
+      this.editingGalleryId = null;
+      this.galleryEditImagePreview = null;
+      this.refreshGallery();
+    }
+  }
+
+  async deleteGallery(id: string): Promise<void> {
+    if (!confirm('¿Eliminar este elemento de la galería?')) return;
+    const { error } = await this.gallery.delete(id);
+    if (error) this.doiError = (error as { message?: string }).message || 'Error al eliminar';
+    else this.refreshGallery();
   }
 }

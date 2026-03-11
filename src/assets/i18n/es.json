@@ -4,9 +4,18 @@
     "PORTFOLIO": "Webs y apps",
     "PUBLICATIONS": "Publicaciones",
     "PROJECTS": "Proyectos de investigación",
+    "GALLERY": "Galería",
     "FORMATION": "Formación",
     "CONTACT": "Contacto",
     "BOOK_CALL": "Contactar"
+  },
+  "GALLERY": {
+    "TITLE": "Galería",
+    "SEARCH_PLACEHOLDER": "Buscar por título, etiqueta...",
+    "SETTINGS": "Ajustes",
+    "OPTIONS": "Opciones",
+    "NO_RESULTS": "No hay imágenes que coincidan con la búsqueda.",
+    "IMAGE_ALT": "Imagen de galería"
   },
   "LANG": {
     "SWITCH": "Cambiar idioma"

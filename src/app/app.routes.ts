@@ -22,6 +22,11 @@ export const routes: Routes = [
         data: { title: `Webs y apps | ${SITE_TITLE}`, description: 'Webs y aplicaciones que desarrollo. Enlaces y descripción de cada proyecto.' }
       },
       {
+        path: 'galeria',
+        loadComponent: () => import('./pages/gallery/gallery.component').then(m => m.GalleryComponent),
+        data: { title: `Galería | ${SITE_TITLE}`, description: 'Galería personal de imágenes y fotos.' }
+      },
+      {
         path: 'publications',
         loadComponent: () => import('./pages/publications/publications.component').then(m => m.PublicationsComponent),
         data: { title: `Publicaciones | ${SITE_TITLE}`, description: 'Artículos científicos con DOI. Título, autores, año y enlace.' }

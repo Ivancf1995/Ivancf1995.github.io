@@ -273,4 +273,77 @@
       }
     }
   </section>
+
+  <section class="dashboard__section">
+    <h2>Galería</h2>
+    <p class="dashboard__hint">Imágenes de la galería personal. Solo la imagen es obligatoria; título, autor y etiquetas (separadas por comas) opcionales.</p>
+    <form (ngSubmit)="submitGallery()" [formGroup]="galleryForm" class="dashboard__form">
+      <input formControlName="title" placeholder="Título (opcional)" class="dashboard__input" />
+      <div class="dashboard__image-upload">
+        <label class="dashboard__label">Imagen</label>
+        <div class="dashboard__image-row">
+          <input type="file" accept="image/*" (change)="onGalleryImageFile($event)" [disabled]="appImageUploading" class="dashboard__file" />
+          <span class="dashboard__image-hint">o pega URL abajo</span>
+        </div>
+        @if (appImageUploading) {
+          <p class="dashboard__uploading">Subiendo imagen…</p>
+        }
+        @if (galleryImagePreview) {
+          <div class="dashboard__preview-wrap">
+            <img [src]="galleryImagePreview" alt="Vista previa" class="dashboard__preview" />
+            <button type="button" class="btn-link dashboard__clear-img" (click)="clearGalleryImage()">Quitar imagen</button>
+          </div>
+        }
+        <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+      </div>
+      <input formControlName="author" placeholder="Autor (opcional)" class="dashboard__input" />
+      <input formControlName="tags" placeholder="Etiquetas separadas por comas (opcional)" class="dashboard__input" />
+      <button type="submit" class="btn btn--primary" [disabled]="galleryForm.invalid || gallerySaving">
+        {{ gallerySaving ? 'Guardando…' : 'Añadir a la galería' }}
+      </button>
+    </form>
+    @if (gallery$ | async; as list) {
+      @if (list.length === 0) {
+        <p class="muted">Ningún elemento en la galería.</p>
+      } @else {
+        <ul class="dashboard__list">
+          @for (item of list; track item.id) {
+            <li class="dashboard__list-item" [class.dashboard__list-item--editing]="editingGalleryId === item.id">
+              @if (editingGalleryId === item.id) {
+                <form [formGroup]="editGalleryForm" (ngSubmit)="saveEditGallery()" class="dashboard__edit-form">
+                  <input formControlName="title" placeholder="Título (opcional)" class="dashboard__input" />
+                  <div class="dashboard__image-upload">
+                    <label class="dashboard__label">Imagen</label>
+                    <div class="dashboard__image-row">
+                      <input type="file" accept="image/*" (change)="onGalleryEditImageFile($event)" [disabled]="appImageUploading" class="dashboard__file" />
+                      <span class="dashboard__image-hint">o URL abajo</span>
+                    </div>
+                    @if (galleryEditImagePreview) {
+                      <div class="dashboard__preview-wrap">
+                        <img [src]="galleryEditImagePreview" alt="Vista previa" class="dashboard__preview" />
+                        <button type="button" class="btn-link dashboard__clear-img" (click)="clearGalleryEditImage()">Quitar imagen</button>
+                      </div>
+                    }
+                    <input formControlName="image_url" placeholder="URL de la imagen" class="dashboard__input" />
+                  </div>
+                  <input formControlName="author" placeholder="Autor" class="dashboard__input" />
+                  <input formControlName="tags" placeholder="Etiquetas (separadas por comas)" class="dashboard__input" />
+                  <div class="dashboard__edit-actions">
+                    <button type="submit" class="btn btn--primary" [disabled]="editGalleryForm.invalid">Guardar</button>
+                    <button type="button" class="btn btn--outline" (click)="cancelEditGallery()">Cancelar</button>
+                  </div>
+                </form>
+              } @else {
+                <span>{{ item.title || 'Sin título' }}{{ item.author ? ' — ' + item.author : '' }}</span>
+                <span class="dashboard__item-actions">
+                  <button type="button" class="btn-link" (click)="startEditGallery(item)">Editar</button>
+                  <button type="button" class="btn-link" (click)="deleteGallery(item.id)">Eliminar</button>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
 </div>

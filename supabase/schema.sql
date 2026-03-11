@@ -118,6 +118,30 @@ create policy "Formation: solo autenticados escriben"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- Galería personal (imagen obligatoria; título, autor y etiquetas opcionales)
+create table if not exists public.gallery (
+  id uuid primary key default gen_random_uuid(),
+  title text,
+  image_url text not null,
+  author text,
+  tags text,
+  "order" int not null default 0,
+  created_at timestamptz default now()
+);
+
+alter table public.gallery enable row level security;
+
+create policy "Gallery: lectura pública"
+  on public.gallery for select using (true);
+
+create policy "Gallery: solo autenticados escriben"
+  on public.gallery for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- Si ya tenías la tabla gallery con title NOT NULL, ejecuta en SQL Editor:
+-- alter table public.gallery alter column title drop not null;
+
 -- Storage: bucket para imágenes de apps (y demás).
 -- Si el INSERT falla por permisos, crea el bucket desde Dashboard → Storage → New bucket (id: portfolio-images, public: sí).
 insert into storage.buckets (id, name, public)

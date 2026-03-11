@@ -2,20 +2,6 @@
 <section class="hero section section--light">
   <div class="container hero__grid">
     <div class="hero__content">
-      <div class="hero__stats">
-        <div class="hero__stat">
-          <span class="hero__stat-value">{{ (publicationsCount$ | async) ?? '—' }}</span>
-          <span class="hero__stat-label">{{ 'HOME.PUBLICATIONS_COUNT' | translate }}</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-value">{{ (projectsCount$ | async) ?? '—' }}</span>
-          <span class="hero__stat-label">{{ 'HOME.PROJECTS_COUNT' | translate }}</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-value">{{ (appsCount$ | async) ?? '—' }}</span>
-          <span class="hero__stat-label">{{ 'HOME.APPS_COUNT' | translate }}</span>
-        </div>
-      </div>
       <h1 class="hero__title">{{ 'HOME.HELLO' | translate }}</h1>
       <p class="hero__tagline">— {{ 'HOME.TAGLINE' | translate }}</p>
       <nav class="hero__social" aria-label="Redes y perfiles académicos">
@@ -47,21 +33,6 @@
         alt="Iván Cortés"
         class="hero__image"
       />
-    </div>
-    <!-- En móvil: estadísticas debajo de la foto, en fila -->
-    <div class="hero__stats hero__stats--mobile">
-      <div class="hero__stat">
-        <span class="hero__stat-value">{{ (publicationsCount$ | async) ?? '—' }}</span>
-        <span class="hero__stat-label">{{ 'HOME.PUBLICATIONS_COUNT' | translate }}</span>
-      </div>
-      <div class="hero__stat">
-        <span class="hero__stat-value">{{ (projectsCount$ | async) ?? '—' }}</span>
-        <span class="hero__stat-label">{{ 'HOME.PROJECTS_COUNT' | translate }}</span>
-      </div>
-      <div class="hero__stat">
-        <span class="hero__stat-value">{{ (appsCount$ | async) ?? '—' }}</span>
-        <span class="hero__stat-label">{{ 'HOME.APPS_COUNT' | translate }}</span>
-      </div>
     </div>
   </div>
   <div class="hero__scroll">
