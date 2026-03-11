@@ -11,13 +11,22 @@
             <ul class="formation-list">
               @for (item of group.list; track item.id) {
                 <li class="formation-list__item">
-                  @if (item.title) {
-                    <span class="formation-list__heading">{{ item.title }}</span>
-                  }
+                  <div class="formation-list__row">
+                    @if (getTechSlug(item); as slug) {
+                      @if (getTechIconPath(slug); as iconSrc) {
+                        <img [src]="iconSrc" [alt]="slug" class="formation-list__icon" width="28" height="28" />
+                      }
+                    }
+                    <div class="formation-list__head">
+                      @if (item.title) {
+                        <span class="formation-list__heading">{{ item.title }}</span>
+                      }
+                      @if (item.level) {
+                        <span class="formation-list__level">{{ item.level }}</span>
+                      }
+                    </div>
+                  </div>
                   <div class="formation-list__content">{{ item.content }}</div>
-                  @if (item.level) {
-                    <span class="formation-list__level">{{ item.level }}</span>
-                  }
                 </li>
               }
             </ul>

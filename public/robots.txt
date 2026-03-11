@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap (ajusta la URL si usas base-href, ej. /portfolio/)
+Sitemap: https://ivancf1995.github.io/sitemap.xml
+
+# Opcional: no indexar el panel de admin
+Disallow: /admin

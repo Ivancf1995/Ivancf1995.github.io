@@ -30,6 +30,21 @@
   }
 }
 
+.formation-list__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 0.75rem);
+  margin-bottom: var(--space-xs);
+}
+
+.formation-list__icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
 .formation-list__heading {
   display: block;
   font-weight: 600;

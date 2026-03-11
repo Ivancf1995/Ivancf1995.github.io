@@ -77,6 +77,24 @@
   margin-top: var(--space-xs);
 }
 
+/* Móvil: artículo en columna (imagen arriba, texto abajo) para mejor lectura */
+@media (max-width: 768px) {
+  .pub-list__item--with-image .pub-list__link {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+  }
+
+  .pub-list__image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 180px;
+    max-height: 220px;
+    object-fit: cover;
+  }
+}
+
 .muted {
   color: var(--color-secondary);
   margin-top: var(--space-lg);

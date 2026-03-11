@@ -6,15 +6,15 @@
     "PROJECTS": "Research projects",
     "FORMATION": "Formation",
     "CONTACT": "Contact",
-    "BOOK_CALL": "Book a call"
+    "BOOK_CALL": "Contact"
   },
   "LANG": {
     "SWITCH": "Switch language"
   },
   "HOME": {
-    "HELLO": "Hello",
-    "TAGLINE": "Biologist, researcher and developer. AI in Ecology and Health.",
-    "PROJECTS_COUNT": "Projects",
+    "HELLO": "Welcome",
+    "TAGLINE": "My name is Iván Cortés and I am biologist. I work in ecological research, altought I love coding and carrying out random projects. My expertise is focused on data analysis and AI in biology and health",
+    "PROJECTS_COUNT": "Research projects",
     "APPS_COUNT": "Websites and Apps",
     "PUBLICATIONS_COUNT": "Publications",
     "SCROLL_DOWN": "Scroll down",

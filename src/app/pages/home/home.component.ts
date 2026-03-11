@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AsyncPipe } from '@angular/common';
+import { map } from 'rxjs';
 import { AppsService } from '../../core/services/apps.service';
 import { PublicationsService } from '../../core/services/publications.service';
 import { ProjectsService } from '../../core/services/projects.service';
@@ -26,6 +27,7 @@ export class HomeComponent {
   appsCount$ = this.apps.getCount();
   publicationsCount$ = this.publications.getCount();
   projects$ = this.projects.getProjects();
+  projectsCount$ = this.projects$.pipe(map((p) => p?.length ?? 0));
   publications$ = this.publications.getPublications();
   apps$ = this.apps.getApps();
 
