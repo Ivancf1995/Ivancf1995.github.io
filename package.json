@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "env:generate": "node scripts/replace-env.js",
+    "prestart": "npm run env:generate",
+    "prebuild": "npm run env:generate",
     "start": "ng serve",
     "build": "ng build",
     "build:gh-pages": "ng build --configuration production --base-href /portfolio/",
@@ -38,6 +41,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "dotenv": "^16.4.5",
     "typescript": "~5.6.2"
   }
 }

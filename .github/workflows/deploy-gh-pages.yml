@@ -34,6 +34,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate environment from secrets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SOCIAL_LINKEDIN: ${{ secrets.SOCIAL_LINKEDIN }}
+          SOCIAL_ORCID: ${{ secrets.SOCIAL_ORCID }}
+          SOCIAL_GOOGLE_SCHOLAR: ${{ secrets.SOCIAL_GOOGLE_SCHOLAR }}
+          SOCIAL_GITHUB: ${{ secrets.SOCIAL_GITHUB }}
+        run: npm run env:generate
+
       - name: Build for GitHub Pages
         env:
           REPO_NAME: ${{ github.event.repository.name }}

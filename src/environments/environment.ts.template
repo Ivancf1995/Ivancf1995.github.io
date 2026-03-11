@@ -1,0 +1,11 @@
+export const environment = {
+  production: false,
+  supabaseUrl: __SUPABASE_URL__,
+  supabaseAnonKey: __SUPABASE_ANON_KEY__,
+  socialLinks: {
+    linkedin: __SOCIAL_LINKEDIN__,
+    orcid: __SOCIAL_ORCID__,
+    googleScholar: __SOCIAL_GOOGLE_SCHOLAR__,
+    github: __SOCIAL_GITHUB__
+  }
+};
